@@ -18,6 +18,7 @@ describe('oath', function () {
   describe('Promise', function () {
     describe('.then', function () {
       it('should call then on a promise resolution', function (done) {
+        console.log()
         promiseTimeout(function () {}, 5)
           .then(done);
       });
@@ -102,21 +103,26 @@ describe('oath', function () {
   describe('chaining', function () {
     it('should allow you to chain promises using then', function (done) {
       var step1 = function (num) {
+      console.log(2);
         return promiseTimeout(function () {
+        console.log(6)
           return num + 10;
         }, 5);
       };
 
       var step2 = function (num) {
+        console.log(7)
         return promiseTimeout(function () {
+        console.log(8)
           return num + 20;
         }, 5);
       };
-
-      step1(100).then(step2).then(function (num) {
+      console.log(1);
+      step1(100).then(step2 && console.log(3)).then(function (num) {
+        console.log(9)
         expect(num).to.equal(130);
         done();
-      });
+      } && console.log(4));
     });
 
     it('should jump directly to catch if an error is thrown during chaining', function (done) {
